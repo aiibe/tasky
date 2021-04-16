@@ -2,12 +2,12 @@
 	import { onMount } from "svelte";
 	let value = "";
 	let tasks = [];
+	let darkmode = false;
 
 	onMount(() => syncDB());
 
 	function syncDB() {
 		const taskydb = localStorage.getItem("tasky");
-		// console.log(taskydb);
 		if (!taskydb) return localStorage.setItem("tasky", "");
 		tasks = [...JSON.parse(taskydb)];
 	}
@@ -36,48 +36,115 @@
 	}
 </script>
 
-<main>
-	<nav>
-		<h1>Tasky</h1>
-	</nav>
+<main style="background-color: {darkmode ? 'rgb(36, 36, 36)' : '#fff'}">
+	<div>
+		<nav>
+			<div>
+				<h1
+					style="color: {darkmode
+						? 'rgb(147, 147, 147)'
+						: 'rgb(77, 77, 77)'}"
+				>
+					Tasky
+				</h1>
+			</div>
+			<div class="darkbox">
+				<input id="dark" type="checkbox" bind:checked={darkmode} />
+				<label for="dark" />
+			</div>
+		</nav>
 
-	<div class="content">
-		<form on:submit|preventDefault={addTask}>
-			<input type="text" bind:value />
-			<button type="submit">Add</button>
-		</form>
-		<ul>
-			{#each tasks as t}
-				<li>
-					<p>
-						{t.value}
-					</p>
-					<span on:click={removeTask(t.id)}>remove</span>
-				</li>
-			{/each}
-		</ul>
+		<div class="content">
+			<form on:submit|preventDefault={addTask}>
+				<input
+					type="text"
+					bind:value
+					style={darkmode
+						? "background-color:rgb(30, 30, 30); color: rgb(147, 147, 147)"
+						: "background-color:initial; color: rgb(77, 77, 77)"}
+				/>
+				<button type="submit">Add</button>
+			</form>
+			<ul>
+				{#each tasks as t}
+					<li>
+						<p
+							style={darkmode
+								? "color: rgb(147, 147, 147)"
+								: "color: rgb(77, 77, 77)"}
+						>
+							{t.value}
+						</p>
+						<span on:click={removeTask(t.id)}>remove</span>
+					</li>
+				{/each}
+			</ul>
+		</div>
 	</div>
 </main>
 
 <style>
 	main {
+		height: 100%;
+	}
+
+	main > div {
 		max-width: 36rem;
 		margin: 0 auto;
+		height: 100%;
 	}
 
 	nav {
-		padding: 0 1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+	}
+
+	nav h1 {
+		margin: 0;
 	}
 
 	.content {
 		padding: 1rem;
 	}
 
+	.darkbox {
+		width: 2rem;
+		height: 1rem;
+		background: rgba(0, 0, 0, 0.2);
+		position: relative;
+		border-radius: 2.5rem;
+	}
+
+	.darkbox label {
+		width: 1.2rem;
+		height: 1.2rem;
+		display: block;
+		border: 1px solid rgba(0, 0, 0, 0.3);
+		border-radius: 50%;
+		transition: all 0.5s ease;
+		cursor: pointer;
+		position: absolute;
+		top: -2px;
+		left: 0px;
+		background: rgba(255, 255, 255, 1);
+	}
+
 	form {
 		display: flex;
 	}
 
-	input {
+	input[type="checkbox"] {
+		visibility: hidden;
+	}
+
+	input[type="checkbox"]:checked + label {
+		left: 15px;
+		background-color: rgb(70, 70, 70);
+	}
+
+	input[type="text"] {
 		flex-grow: 1;
 		overflow: auto;
 		padding: 0.5rem 1rem;
@@ -86,7 +153,7 @@
 		outline: none;
 	}
 
-	input:focus {
+	input[type="text"]:focus {
 		box-shadow: none;
 		border: 0.1rem solid rgba(0, 0, 0, 0.5);
 	}
