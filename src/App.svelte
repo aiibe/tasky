@@ -8,15 +8,15 @@
 
 	function initLoad() {
 		const taskydb = localStorage.getItem("tasky");
-		const taskymode = localStorage.getItem("tasky_theme");
+		const taskytheme = localStorage.getItem("tasky_theme");
 		if (!taskydb) {
 			localStorage.setItem("tasky", "");
 		} else {
 			tasks = [...JSON.parse(taskydb)];
 		}
 
-		if (!taskymode) return localStorage.setItem("tasky_theme", "light");
-		darkmode = taskymode === "dark";
+		if (!taskytheme) return localStorage.setItem("tasky_theme", "light");
+		darkmode = taskytheme === "dark";
 	}
 
 	function randString() {
@@ -99,15 +99,14 @@
 	</div>
 </main>
 
-<style>
+<style lang="scss">
 	main {
 		height: 100%;
-	}
-
-	main > div {
-		max-width: 36rem;
-		margin: 0 auto;
-		height: 100%;
+		> div {
+			max-width: 36rem;
+			margin: 0 auto;
+			height: 100%;
+		}
 	}
 
 	nav {
@@ -115,14 +114,60 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 1rem;
-	}
 
-	nav h1 {
-		margin: 0;
+		h1 {
+			margin: 0;
+		}
 	}
 
 	.content {
 		padding: 1rem;
+
+		form {
+			display: flex;
+			input[type="text"] {
+				flex-grow: 1;
+				overflow: auto;
+				padding: 0.5rem 1rem;
+				box-shadow: none;
+				border: 0.1rem solid rgba(0, 0, 0, 0.2);
+				outline: none;
+
+				&:focus {
+					box-shadow: none;
+					border: 0.1rem solid rgba(0, 0, 0, 0.5);
+				}
+			}
+		}
+
+		ul {
+			padding: 0;
+			li {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				list-style: none;
+				padding: 0.5rem 0;
+
+				&:hover {
+					background-color: rgba(0, 0, 0, 0.04);
+					cursor: pointer;
+				}
+
+				p {
+					margin: 0;
+				}
+
+				span {
+					font-size: 12px;
+					color: rgb(255, 146, 146);
+
+					&:hover {
+						color: rgb(255, 79, 79);
+					}
+				}
+			}
+		}
 	}
 
 	.darkbox {
@@ -131,47 +176,29 @@
 		background: rgba(0, 0, 0, 0.2);
 		position: relative;
 		border-radius: 2.5rem;
-	}
 
-	.darkbox label {
-		width: 1.2rem;
-		height: 1.2rem;
-		display: block;
-		border: 1px solid rgba(0, 0, 0, 0.3);
-		border-radius: 50%;
-		transition: all 0.5s ease;
-		cursor: pointer;
-		position: absolute;
-		top: -2px;
-		left: 0px;
-		background: rgba(255, 255, 255, 1);
-	}
+		label {
+			width: 1.2rem;
+			height: 1.2rem;
+			display: block;
+			border: 1px solid rgba(0, 0, 0, 0.1);
+			border-radius: 50%;
+			transition: all 0.5s ease;
+			cursor: pointer;
+			position: absolute;
+			top: -2px;
+			left: 0px;
+			background: rgb(147, 147, 147);
+		}
 
-	form {
-		display: flex;
-	}
+		input[type="checkbox"] {
+			visibility: hidden;
 
-	input[type="checkbox"] {
-		visibility: hidden;
-	}
-
-	input[type="checkbox"]:checked + label {
-		left: 15px;
-		background-color: rgb(70, 70, 70);
-	}
-
-	input[type="text"] {
-		flex-grow: 1;
-		overflow: auto;
-		padding: 0.5rem 1rem;
-		box-shadow: none;
-		border: 0.1rem solid rgba(0, 0, 0, 0.2);
-		outline: none;
-	}
-
-	input[type="text"]:focus {
-		box-shadow: none;
-		border: 0.1rem solid rgba(0, 0, 0, 0.5);
+			&:checked + label {
+				left: 15px;
+				background-color: rgb(48, 48, 48);
+			}
+		}
 	}
 
 	button {
@@ -180,41 +207,11 @@
 		background-color: rgba(0, 0, 0, 0.5);
 		color: #fff;
 		border: none;
-	}
 
-	button:hover,
-	button:focus-visible {
-		background-color: rgba(0, 0, 0, 0.6);
-		cursor: pointer;
-	}
-
-	ul {
-		padding: 0;
-	}
-
-	li {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		list-style: none;
-		padding: 0.5rem 0;
-	}
-
-	li:hover {
-		background-color: rgba(0, 0, 0, 0.04);
-		cursor: pointer;
-	}
-
-	li p {
-		margin: 0;
-	}
-
-	li span {
-		font-size: 12px;
-		color: rgb(255, 146, 146);
-	}
-
-	li span:hover {
-		color: rgb(255, 79, 79);
+		&:hover,
+		&:focus-visible {
+			background-color: rgba(0, 0, 0, 0.6);
+			cursor: pointer;
+		}
 	}
 </style>
