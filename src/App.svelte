@@ -4,12 +4,19 @@
 	let tasks = [];
 	let darkmode = false;
 
-	onMount(() => syncDB());
+	onMount(() => initLoad());
 
-	function syncDB() {
+	function initLoad() {
 		const taskydb = localStorage.getItem("tasky");
-		if (!taskydb) return localStorage.setItem("tasky", "");
-		tasks = [...JSON.parse(taskydb)];
+		const taskymode = localStorage.getItem("tasky_theme");
+		if (!taskydb) {
+			localStorage.setItem("tasky", "");
+		} else {
+			tasks = [...JSON.parse(taskydb)];
+		}
+
+		if (!taskymode) return localStorage.setItem("tasky_theme", "light");
+		darkmode = taskymode === "dark";
 	}
 
 	function randString() {
@@ -34,6 +41,10 @@
 		tasks = tasks.filter((t) => t.id !== id);
 		localStorage.setItem("tasky", JSON.stringify(tasks));
 	}
+
+	function toggleMode() {
+		localStorage.setItem("tasky_theme", darkmode ? "dark" : "light");
+	}
 </script>
 
 <main style="background-color: {darkmode ? 'rgb(36, 36, 36)' : '#fff'}">
@@ -49,7 +60,12 @@
 				</h1>
 			</div>
 			<div class="darkbox">
-				<input id="dark" type="checkbox" bind:checked={darkmode} />
+				<input
+					id="dark"
+					type="checkbox"
+					bind:checked={darkmode}
+					on:change={toggleMode}
+				/>
 				<label for="dark" />
 			</div>
 		</nav>
