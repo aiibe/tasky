@@ -7,6 +7,7 @@
 
 	function syncDB() {
 		const taskydb = localStorage.getItem("tasky");
+		// console.log(taskydb);
 		if (!taskydb) return localStorage.setItem("tasky", "");
 		tasks = [...JSON.parse(taskydb)];
 	}
@@ -45,7 +46,7 @@
 			<input type="text" bind:value />
 			<button type="submit">Add</button>
 		</form>
-		<ol>
+		<ul>
 			{#each tasks as t}
 				<li>
 					<p>
@@ -54,7 +55,7 @@
 					<span on:click={removeTask(t.id)}>remove</span>
 				</li>
 			{/each}
-		</ol>
+		</ul>
 	</div>
 </main>
 
@@ -104,7 +105,6 @@
 		cursor: pointer;
 	}
 
-	ol,
 	ul {
 		padding: 0;
 	}
