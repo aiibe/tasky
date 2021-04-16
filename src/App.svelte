@@ -45,6 +45,10 @@
 	function toggleMode() {
 		localStorage.setItem("tasky_theme", darkmode ? "dark" : "light");
 	}
+
+	function focus(input) {
+		input.focus();
+	}
 </script>
 
 <main style="background-color: {darkmode ? 'rgb(36, 36, 36)' : '#fff'}">
@@ -73,6 +77,7 @@
 		<div class="content">
 			<form on:submit|preventDefault={addTask}>
 				<input
+					use:focus
 					type="text"
 					bind:value
 					style={darkmode
