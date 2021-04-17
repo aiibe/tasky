@@ -2,22 +2,19 @@
 	import { onMount } from "svelte";
 	let value = "";
 	let tasks = [];
-	let darkmode = false;
 	let smoothTransition = "transition-all duration-1000";
+
+	export let darkmode;
 
 	onMount(() => initLoad());
 
 	function initLoad() {
 		const taskydb = localStorage.getItem("tasky");
-		const taskytheme = localStorage.getItem("tasky_theme");
 		if (!taskydb) {
 			localStorage.setItem("tasky", "");
 		} else {
 			tasks = [...JSON.parse(taskydb)];
 		}
-
-		if (!taskytheme) return localStorage.setItem("tasky_theme", "light");
-		darkmode = taskytheme === "dark";
 	}
 
 	function randString() {
@@ -106,7 +103,7 @@
 			<ul>
 				{#each tasks as t}
 					<li
-						class="flex justify-between items-center text-gray-500 hover:text-green-500"
+						class="flex justify-between items-center text-gray-500 hover:text-green-500 my-3"
 					>
 						<p class="text-xl">
 							{t.value}
