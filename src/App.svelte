@@ -90,8 +90,8 @@
 			>
 				<input
 					class="{darkmode
-						? 'bg-gray-600'
-						: 'bg-white'} text-xl w-full h-10 ring-0 py-1 px-2 outline-none rounded-none border-none shadow-none {smoothTransition}"
+						? 'bg-gray-600 text-gray-100'
+						: 'bg-white text-gray-600'} text-xl w-full h-10 ring-0 py-1 px-2 outline-none rounded-none border-none shadow-none {smoothTransition}"
 					use:aufocus
 					type="text"
 					bind:value
@@ -106,7 +106,7 @@
 			<ul>
 				{#each tasks as t}
 					<li
-						class="flex items-center text-gray-600 hover:text-green-500"
+						class="flex justify-between items-center text-gray-500 hover:text-green-500"
 					>
 						<p class="text-xl">
 							{t.value}
